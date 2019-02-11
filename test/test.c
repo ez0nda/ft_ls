@@ -56,14 +56,14 @@ int		main(int ac, char **av)
 
 	if (ac >= 1)
 	{
-		dir = opendir("dir1");
+		dir = opendir(".");
 		// ft_sort();
 		while ((diread = readdir(dir)) != NULL)
 		{
 			if (diread->d_name[0] == '.')
 				continue ;
 			//	printf("STAT : %d\n", stat(diread->d_name, &st));
-			if (stat(ft_strjoin("./dir1/", diread->d_name), &st) < 0)
+			if (stat(ft_strjoin("./", diread->d_name), &st) < 0)
 				return (0);
 			ft_display_type(st);
 			ft_display_rights(st);
