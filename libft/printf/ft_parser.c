@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 09:59:40 by ezonda            #+#    #+#             */
-/*   Updated: 2019/01/29 16:00:11 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/01/31 20:10:52 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_check_flags(const char *format, t_struct *stru, t_stock *stock)
 	while (format[i] != 'd' && format[i] != 'i' && format[i] != 'o' &&
 			format[i] != 'u' && format[i] != 'x' && format[i] != 'X' &&
 			format[i] != 'c' && format[i] != 's' && format[i] != 'p' &&
-			format[i] != 'f' && format[i] != '%' && format[i] != 'U')
+			format[i] != 'f' && format[i] != '%')
 	{
 		if (format[i] == '0' && (format[i - 1] < '0'
 					|| format[i - 1] > '9') && format[i - 1] != '.')
@@ -50,6 +50,8 @@ void	ft_check_flags(const char *format, t_struct *stru, t_stock *stock)
 			stru->flag[3] = 1;
 		if (format[i] == ' ')
 			stru->flag[4] = 1;
+		if (format[i] == '*')
+			stru->min_field = va_arg(stru->ap, int);
 		ft_check_flags_p2(format, stru, i);
 		i++;
 	}

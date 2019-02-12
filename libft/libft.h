@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <limits.h>
-//# include "printf/includes/ft_printf.h"
+# include "printf/includes/ft_printf.h"
 
 # define BUFF_SIZE 4096
 

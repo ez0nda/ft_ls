@@ -14,6 +14,9 @@
 
 void	ft_memdel(void **ap)
 {
+	size_t i;
+
+	i = 0;
 	if (ap)
 	{
 		if (*ap)

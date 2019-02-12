@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdel.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/08 14:07:09 by jebrocho          #+#    #+#             */
-/*   Updated: 2018/11/08 18:24:13 by jebrocho         ###   ########.fr       */
+/*   Created: 2019/02/06 16:09:17 by jebrocho          #+#    #+#             */
+/*   Updated: 2019/02/08 13:47:01 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/ft_ls.h"
 
-void	ft_strdel(char **as)
+int		main(int ac, char **av)
 {
-	int i;
+	t_flags		flag;
+	t_var		v;
 
-	i = 0;
-	if (as)
-	{
-		if (*as)
-			free(*as);
-		*as = NULL;
-	}
+	ft_initialize(&flag, &v);
+	if (ac == 1)
+		return (ft_ls_no_flag(&v));
+	if (ac > 1)
+		ft_check_flag(ac - 1, av, &flag, &v);
+	ft_display(&flag, &v);
+	return (0);
 }

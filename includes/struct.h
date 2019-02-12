@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdel.c                                        :+:      :+:    :+:   */
+/*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/08 14:07:09 by jebrocho          #+#    #+#             */
-/*   Updated: 2018/11/08 18:24:13 by jebrocho         ###   ########.fr       */
+/*   Created: 2019/02/08 13:38:57 by jebrocho          #+#    #+#             */
+/*   Updated: 2019/02/12 13:49:04 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef STRUCT_H
+# define STRUCT_H
 
-void	ft_strdel(char **as)
+# include "ft_ls.h"
+
+struct dirent	*diread;
+struct stat		st;
+struct tm		*date;
+
+typedef struct s_var
 {
-	int i;
+	DIR		*dir;
+	char	invalid;
+	char	*path;
+	char	*path_end;
+	int		len;
+	char	*last;
+}				t_var;
 
-	i = 0;
-	if (as)
-	{
-		if (*as)
-			free(*as);
-		*as = NULL;
-	}
-}
+typedef struct s_flags
+{
+	int l;
+	int R;
+	int a;
+	int r;
+	int t;
+	int mod;
+}				t_flags;
+
+#endif

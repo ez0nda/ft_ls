@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 13:36:39 by ezonda            #+#    #+#             */
-/*   Updated: 2019/01/29 16:06:56 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/01/31 20:00:52 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int		ft_check_format(const char *format, t_struct *stru)
 	while (format[i] == '0' || format[i] == '#' || format[i] == '+'
 			|| format[i] == '-' || format[i] == ' ' || format[i] == '.'
 			|| format[i] == 'h' || format[i] == 'l' || format[i] == 'L'
-			|| format[i] == 'j' || format[i] == 'z' || pf_isdigit(format[i]))
+			|| format[i] == 'j' || format[i] == 'z' || pf_isdigit(format[i])
+			|| format[i] == '*')
 		i++;
 	while (format[stru->valid] != stru->indic)
 		stru->valid++;
