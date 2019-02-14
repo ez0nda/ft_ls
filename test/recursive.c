@@ -5,76 +5,127 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/14 09:45:32 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/14 12:51:02 by ezonda           ###   ########.fr       */
+/*   Created: 2019/02/14 18:22:14 by ezonda            #+#    #+#             */
+/*   Updated: 2019/02/14 20:32:49 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_ls.h"
 
-char	**ft_stock_names(t_flags *flag, t_var *v)
+/*void	ft_stock_names(char *str, t_flags *flag, t_var *v, char **stock)
 {
 	int i;
-	char **stock;
 
 	i = 0;
-	v->len = 0;
 	v->dir = opendir(v->path);
+	ft_printf("path : %s\n", v->path);
 	while ((diread = readdir(v->dir)) != NULL)
 	{
 		if (diread->d_name[0] == '.' && flag->a == 0)
 			continue ;
-		stock[i] = diread->d_name;
-		printf("stock = %s\n", stock[i]);
-		getchar();
+		stock[i] = ft_strdup(diread->d_name);
 		i++;
 	}
 	stock[i] = NULL;
 	closedir(v->dir);
-	return (stock);
 }
 
-char	*ft_putslash(t_var *v, char *str)
+void	ft_recursive_flag(char *str, t_flags *flag, t_var *v)
 {
-	int len;
-	char *dirname;
-	char *newpath;
-
-	dirname = ft_strjoin(v->path, str);
-	len = ft_strlen(dirname);
-	printf("len = %d\n", len);
-//	dirname = ft_strcpy(dirname, str);
-	dirname[len] = '/';
-	dirname[len + 1] = '\0';
-	ft_printf("dirname = %s\n", dirname);
-	return (dirname);
-}
-
-void	ft_recursive_flag(t_flags *flag, t_var *v)
-{
-	int i;
-	char **stock;
+	char	*stock[50];
+	int		i;
 
 	i = 0;
 	flag->R = 0;
-	stock = ft_stock_names(flag, v);
-//	ft_display(flag, v);
-/*	while (stock[i])
+	v->path = str;
+	ft_stock_names(v->path, flag, v, stock);
+	ft_printf("%s:\n", v->path);
+	ft_display(flag, v);
+	ft_printf("\n\n");
+	while (stock[i])
 	{
 		if (stat(ft_strjoin(v->path, stock[i]), &st) < 0)
 			return ;
 		if (S_ISDIR(st.st_mode))
 		{
-			newpath = ft_putslash(v, stock[i]);
-		//	ft_printf("join = %s\n", ft_strjoin(strpath, ft_putslash(stock[i])));
-		//	newpath = ft_strjoin(strpath, dirname);
-		//	ft_recursive_flag(flag, v, newpath);
+			ft_printf("--%s--\n", ft_strjoin(v->path, ft_strjoin(stock[i], "/")));
+			ft_recursive_flag(ft_strjoin(v->path, ft_strjoin(stock[i], "/")), flag, v);
 		}
 		i++;
+	}
+}*/
+
+void	ft_stock_names(char *path, char **stock)
+{
+	DIR				*dir;
+	struct dirent	*diread;
+	int i = 0;
+
+	dir = opendir(path);
+	while ((diread = readdir(dir)) != NULL)
+	{
+		if (diread->d_name[0] == '.')
+			continue ;
+		stock[i] = ft_strdup(diread->d_name);
+		i++;
+	}
+	stock[i] = NULL;
+	closedir(dir);
+}
+
+void	print_name(char *path)
+{
+	DIR				*dir;
+	struct dirent	*diread;
+
+	dir = opendir(path);
+	while ((diread = readdir(dir)) != NULL)
+	{
+		if (diread->d_name[0] == '.')
+			continue ;
+		printf("%s  ", diread->d_name);
+	}
+	closedir(dir);
+}
+
+void		ft_try(char *str, char **stock, int i)
+{
+			printf("--%s\n", ft_strjoin(str, ft_strjoin(stock[i], "/")));
+}
+
+void	ft_recursive_flag(char *str, t_flags *flag, t_var *v)
+{
+	struct stat		st;
+	char			*stock[5000];
+	int				i;
+//	char			*tmp;
+
+	i = 0;
+	v->path = str;
+	ft_stock_names(v->path, stock);
+/*	while (stock[i])
+	{
+		printf("--%s--\n", stock[i]);
+		i++;
 	}*/
+	flag->R = 0;
+	printf("%s:\n", v->path);
+//	print_name(v->path);
+	ft_display(flag, v);
+	printf("\n\n");
 	while (stock[i])
 	{
-		ft_printf("%s\n", stock[i]);
+	//	ft_printf("path : %s\n", v->path);
+//		printf("%s  ", stock[i]);
+		if (stat(ft_strjoin(str, stock[i]), &st) < 0)
+			return ;
+		if (S_ISDIR(st.st_mode))
+		{
+		//	ft_try(str, stock, i);
+	//		printf("--%s\n", ft_strjoin(str, ft_strjoin(stock[i], "/")));
+			ft_recursive_flag(ft_strjoin(str, ft_strjoin(stock[i], "/")), flag, v);
+		}
 		i++;
 	}
 }
+
