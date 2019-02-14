@@ -28,8 +28,6 @@ void	print_name(char *path)
 {
 	DIR				*dir;
 	struct dirent	*diread;
-	char			*stock[50];
-	int i = 0;
 
 	dir = opendir(path);
 	while ((diread = readdir(dir)) != NULL)
@@ -53,12 +51,12 @@ void	recursive(char *str)
 		printf("--%s--\n", stock[i]);
 		i++;
 		}*/
+	printf("%s:\n", str);
 	print_name(str);
-	printf("\n");
+	printf("\n\n");
 	while (stock[i])
 	{
-		printf("%s:\n", str);
-		printf("%s  ", stock[i]);
+//		printf("%s  ", stock[i]);
 		if (stat(ft_strjoin(str, stock[i]), &st) < 0)
 			return ;
 		if (S_ISDIR(st.st_mode))
