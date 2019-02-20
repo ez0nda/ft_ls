@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 10:28:46 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/12 13:54:30 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/02/19 15:51:03 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static char		*ft_get_path(char *str, t_var *v)
 {
-	int start;
-	int end;
+	int			start;
+	int			end;
 
 	start = 0;
 	while (str[start])
@@ -44,6 +44,7 @@ static int		ft_check_path(char *str, t_var *v)
 	}
 	else
 	{
+		v->c_dir = 1;
 		v->path = ft_strjoin(str, "/");
 		return (ft_strlen(str));
 	}
@@ -53,6 +54,7 @@ static int		ft_check_path(char *str, t_var *v)
 			continue ;
 		else if (ft_strcmp(diread->d_name, v->path_end) == 0)
 		{
+			v->file_path = 1;
 			closedir(v->dir);
 			return (ft_strlen(str));
 		}
@@ -112,6 +114,7 @@ static void		ft_set_flag(char *str, t_flags *flag)
 void			ft_check_flag(int nb, char **av, t_flags *flag, t_var *v)
 {
 	int i;
+	int j = 0;
 
 	i = 1;
 	while (i <= nb)

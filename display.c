@@ -5,129 +5,89 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/06 12:42:44 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/12 14:16:03 by ezonda           ###   ########.fr       */
+/*   Created: 2019/02/14 09:47:18 by ezonda            #+#    #+#             */
+/*   Updated: 2019/02/20 17:14:15 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_ls.h"
 
-void	ft_display_type(struct stat st)
+void		ft_display_time(void)
 {
-	if (S_ISDIR(st.st_mode))
-		ft_printf("d");
-	else if (S_ISCHR(st.st_mode))
-		ft_printf("c");
-	else if (S_ISBLK(st.st_mode))
-		ft_printf("b");
-	else if (S_ISLNK(st.st_mode))
-		ft_printf("l");
-	else if (S_ISFIFO(st.st_mode))
-		ft_printf("p");
-	else if (S_ISSOCK(st.st_mode))
-		ft_printf("s");
-	else if (S_ISREG(st.st_mode))
-		ft_printf("-");
+	char	*file_time;
+
+	file_time = ft_strsub(ctime(&st.st_mtime), 4, 12);;
+	ft_printf(" %s ", time);
+	free(time);
 }
 
-void	ft_display_rights(struct stat st)
+void		ft_print_file_path(t_flags *flag, t_var *v)
 {
-	ft_printf( (st.st_mode & S_IRUSR) ? "r" : "-");
-	ft_printf( (st.st_mode & S_IWUSR) ? "w" : "-");
-	ft_printf( (st.st_mode & S_IXUSR) ? "x" : "-");
-	ft_printf( (st.st_mode & S_IRGRP) ? "r" : "-");
-	ft_printf( (st.st_mode & S_IWGRP) ? "w" : "-");
-	ft_printf( (st.st_mode & S_IXGRP) ? "x" : "-");
-	ft_printf( (st.st_mode & S_IROTH) ? "r" : "-");
-	ft_printf( (st.st_mode & S_IWOTH) ? "w" : "-");
-	ft_printf( (st.st_mode & S_IXOTH) ? "x" : "-");
-}
-
-void	ft_display_usr_grp(struct stat st)
-{
-	struct passwd	*usr;
-	struct group	*grp;
-
-	usr = getpwuid(st.st_uid);
-	grp = getgrgid(st.st_gid);
-	ft_printf(" %s", usr->pw_name);
-	ft_printf("  %s", grp->gr_name);
-}
-
-/*void	ft_display_int(struct stat st, t_var *v, int mod)
-{
-	int pad;
-
-	pad = 0;
-	if (mod == 0)
-	{
-		while ((diread = readdir(v->dir)) != NULL)
-		{
-			if (ft_nbrlen(st.st_nlink) > pad)
-				pad = ft_nbrlen(st.st_nlink);
-		}
-	}
-}*/
-
-void	ft_display_long(t_flags *flag, t_var *v)
-{
-	v->dir = opendir(v->path);
-	while ((diread = readdir(v->dir)) != NULL)
-	{
-		if (flag->a == 0 && diread->d_name[0] == '.')
-			continue ;
-		if (stat(ft_strjoin(v->path, diread->d_name), &st) < 0)
-			return ;
-		ft_display_type(st);
-		ft_display_rights(st);
-		ft_printf("  %3d", st.st_nlink);
-		ft_display_usr_grp(st);
-		ft_printf("  %5d", st.st_size);
-		ft_printf(" %.24s", ft_strsub(ctime(&st.st_mtime), 4, 12));
-//		if (v->path_end != NULL)
-//		{
-//			ft_printf("%s\n", v->path_end);
-//			break ;
-//		}
-//		else
-//		{
-//			ft_printf("%-*s", 17, diread->d_name);
-//			
-//		}
-
-		ft_printf("  %s", diread->d_name);
-		ft_printf("\n");
-	}
-	closedir(v->dir);
-}
-
-void	ft_display(t_flags *flag, t_var *v)
-{
-	struct stat st;
 	if (flag->l == 1)
 	{
-		ft_display_long(flag, v);
+		v->dir = opendir(v->path);
+		while ((diread = readdir(v->dir)) != NULL)
+		{
+			if (ft_strcmp(diread->d_name, v->first) != 0 && ft_strcmp(ft_strjoin(diread->d_name, ft_strchr(v->first, '/')), v->first) != 0)
+				continue ;
+			if (stat(ft_strjoin(v->path, v->first), &st) < 0)
+				return ;
+			if (lstat(ft_strjoin(v->path, v->first), &st) < 0)
+				return ;
+			ft_display_type(v);
+			ft_display_rights();
+			ft_printf("  %*d", v->len_link, st.st_nlink);
+			ft_display_usr_grp();
+			ft_printf("  %*d", v->len_file, st.st_size);
+			ft_printf(" %.24s ", ft_strsub(ctime(&st.st_mtime), 4, 12));
+			ft_print(v, flag);
+		}
+		closedir(v->dir);
+	}
+	else
+		ft_print(v, flag);
+}
+
+void		ft_print_name(struct dirent diread, t_var *v)
+{
+	if (v->file_path == 1)
+	{
+		ft_printf("%s%s\n", v->path, v->path_end);
 		return ;
 	}
+	if (ft_strcmp(diread.d_name, v->last) == 0)
+		ft_printf("%s ", diread.d_name);
+	else
+		ft_printf("%-*s ", v->len, diread.d_name);
+}
+
+void		ft_display_std(t_flags *flag, t_var *v)
+{
+	init_len_n_last(v, flag);
 	v->dir = opendir(v->path);
 	while ((diread = readdir(v->dir)) != NULL)
 	{
-		if (flag->a == 0 && diread->d_name[0] == '.')
+		if (diread->d_name[0] == '.' && flag->a == 0)
 			continue ;
-//		if (flag->l == 1)
-//			ft_flag_l(flag, v);
-		if (v->path_end != NULL)
-		{
-			if (ft_strcmp(v->path, ".") != 0)
-				ft_printf("%s", v->path);
-			ft_printf("%s\n", v->path_end);
-			break ;
-		}
-		else
-		{
-			ft_printf("%-*s", 17, diread->d_name);
-			
-		}
+		ascii_order(v, flag);
 	}
 	closedir(v->dir);
+}
+
+void		ft_display(t_flags *flag, t_var *v)
+{
+	if (v->file_path == 1)
+	{
+		display_multi(v, flag);
+		return ;
+	}
+	if (flag->R == 1)
+		ft_recursive_flag(v->path, flag, v);
+	else
+	{
+		if (flag->l == 0)
+			ft_display_std(flag, v);
+		else
+			ft_display_long(flag, v);
+	}
 }

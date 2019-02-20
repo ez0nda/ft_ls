@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 13:38:57 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/12 13:49:04 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/02/19 17:03:54 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,26 @@ struct tm		*date;
 
 typedef struct s_var
 {
+	DIR		*save;
 	DIR		*dir;
 	char	invalid;
 	char	*path;
 	char	*path_end;
+	char	**path_long;
+	char	**stock_d;
+	int		c_dir;
 	int		len;
+	int		len_file;
+	int		len_link;
+	char	*first;
+	char	*mid;
 	char	*last;
+	int		name_count;
+	int		file_path;
+	char	*p_stat;
+	char	*p_slash;
+	char	*p_recu;
+	int		is_link;
 }				t_var;
 
 typedef struct s_flags
