@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 20:58:42 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/20 17:06:18 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/22 14:47:19 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		ft_print(t_var *v, t_flags *f)
 {
-	if (strcmp(v->first, v->last) == 0)
+	if (ft_strcmp(v->first, v->last) == 0)
 	{
 		ft_printf("%s", v->first);
 		if (v->file_path == 1 && v->c_dir == 1)
@@ -26,10 +26,10 @@ void		ft_print(t_var *v, t_flags *f)
 	if (v->is_link == 1)
 		return ;
 	if (f->l == 1)
-		printf("\n");
+		ft_printf("\n");
 }
 
-void		padding_initialisation(t_var *v, t_flags *f)
+void		padding_initialisation(t_var *v)
 {
 	if (stat(ft_strjoin(v->path, diread->d_name), &st) < 0)
 		return ;
@@ -58,11 +58,12 @@ void	init_len_n_last(t_var *v, t_flags *f)
 			v->last = ft_strdup(diread->d_name);
 		if ((ft_strcmp(v->first, diread->d_name) > 0) && f->a == 0)
 			v->first = ft_strdup(diread->d_name);
-		padding_initialisation(v, f);
+		padding_initialisation(v);
 	}
-	init_rev(v, f);
-	v->mid = v->first;
 	closedir(v->dir);
+	if (f->t == 1)
+		init_flag_t(v, f);
+	init_rev(v, f);
 }
 
 void		ascii_order(t_var *v, t_flags *f)
@@ -77,7 +78,7 @@ void		ascii_order(t_var *v, t_flags *f)
 			continue ;
 		if (f->r == 1)
 		{
-			ascii_rev(v, f);
+			ascii_rev(v);
 			continue ;
 		}
 		if ((ft_strcmp(v->first, diread->d_name) < 0) && v->mid == NULL)

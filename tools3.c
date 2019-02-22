@@ -6,13 +6,25 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 13:45:34 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/20 17:12:57 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/22 15:01:11 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_ls.h"
 
-void	initialize_stock_dir(t_var *v, int ac)
+void	ft_display_attr(t_var *v)
+{
+	char *pathname;
+
+	pathname = ft_strjoin(v->path, v->first);
+	if (listxattr(pathname, NULL, 0, XATTR_NOFOLLOW) > 0)
+		ft_printf("@");
+	else
+		ft_printf(" ");
+	free(pathname);
+}
+
+void	initialize_stock_dir(t_var *v)
 {
 	int i;
 	int j;
@@ -68,7 +80,7 @@ char	**rev_order(char **tab)
 	return (tab_save);
 }
 
-void	padding_multi(t_var *v, t_flags *f)
+void	padding_multi(t_var *v)
 {
 	int i;
 	int j;
@@ -85,9 +97,10 @@ void	padding_multi(t_var *v, t_flags *f)
 			j++;
 		}
 		if (i < j)
-			padding_initialisation(v, f);
+			padding_initialisation(v);
 		i = 1;
 		j = 1;
 	}
 	closedir(v->dir);
 }
+

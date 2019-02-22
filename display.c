@@ -6,20 +6,11 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 09:47:18 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/20 17:14:15 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/21 16:09:32 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_ls.h"
-
-void		ft_display_time(void)
-{
-	char	*file_time;
-
-	file_time = ft_strsub(ctime(&st.st_mtime), 4, 12);;
-	ft_printf(" %s ", time);
-	free(time);
-}
 
 void		ft_print_file_path(t_flags *flag, t_var *v)
 {
@@ -28,7 +19,9 @@ void		ft_print_file_path(t_flags *flag, t_var *v)
 		v->dir = opendir(v->path);
 		while ((diread = readdir(v->dir)) != NULL)
 		{
-			if (ft_strcmp(diread->d_name, v->first) != 0 && ft_strcmp(ft_strjoin(diread->d_name, ft_strchr(v->first, '/')), v->first) != 0)
+			if (ft_strcmp(diread->d_name, v->first) != 0
+					&& ft_strcmp(ft_strjoin(diread->d_name,
+					ft_strchr(v->first, '/')), v->first) != 0)
 				continue ;
 			if (stat(ft_strjoin(v->path, v->first), &st) < 0)
 				return ;
@@ -69,7 +62,10 @@ void		ft_display_std(t_flags *flag, t_var *v)
 	{
 		if (diread->d_name[0] == '.' && flag->a == 0)
 			continue ;
-		ascii_order(v, flag);
+		if (flag->t == 1)
+			time_order(v, flag);
+		else
+			ascii_order(v, flag);
 	}
 	closedir(v->dir);
 }

@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/06 12:42:44 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/20 17:14:31 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/22 15:53:09 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,32 @@ void		ft_display_usr_grp(void)
 	ft_printf("  %s", grp->gr_name);
 }
 
+/*void		ft_get_link_path(t_var *v, char *pathname)
+  {
+
+  }*/
+
 void		ft_get_link(t_var *v, char *pathname)
 {
 	char		*buff;
 	ssize_t		nbytes;
+	long			size;
 
-	if (!(buff = ft_strnew(v->len)))
+	size = 20;
+	if (!(buff = ft_strnew(size)))
 		return ;
+	size = sizeof(buff);
+	ft_printf(" -- v-len : %d -- ", size);
 	nbytes = readlink(pathname, buff, sizeof(buff));
-	ft_printf("-> %s", buff);
-	v->is_link = 0;
-	printf("\n");
+		ft_printf("-> %s", buff);
+		v->is_link = 0;
+	//	ft_printf(" -- path : %s", ft_strjoin(pathname, buff));
+	/*	if (S_ISLNK(st.st_mode))
+		{
+		ft_printf(" -- link -- ");
+		}*/
+		ft_printf("\n");
+		free(buff);
 }
 
 void		ft_display_long(t_flags *flag, t_var *v)
@@ -88,11 +103,15 @@ void		ft_display_long(t_flags *flag, t_var *v)
 			return ;
 		ft_display_type(v);
 		ft_display_rights();
+		ft_display_attr(v);
 		ft_printf(" %*d", v->len_link, st.st_nlink);
 		ft_display_usr_grp();
 		ft_printf(" %*d", v->len_file, st.st_size);
 		ft_printf(" %.24s ", ft_strsub(ctime(&st.st_mtime), 4, 12));
-		ascii_order(v, flag);
+		if (flag->t == 1)
+			time_order(v, flag);
+		else
+			ascii_order(v, flag);
 		if (v->is_link == 1)
 			ft_get_link(v, pathname);
 		free(pathname);
