@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 11:25:55 by ezonda            #+#    #+#             */
-/*   Updated: 2019/03/20 11:34:48 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/03/22 16:43:26 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static int		ft_count_names(char *strpath, t_flags *flag)
 	dir = opendir(strpath);
 	if (dir == NULL)
 	{
-		perror("error");
+		ft_putstr_fd("ft_ls: ", 2);
+		ft_putstr_fd(ft_strrchr(strpath, '/'), 2);
+		perror(" ");
 		return (-1);
 	}
 	while ((diread = readdir(dir)) != NULL)
@@ -56,11 +58,11 @@ static void		ft_stock_names(char *strpath, char **stock, t_flags *flag)
 		stock[i] = ft_strdup(diread->d_name);
 		i++;
 	}
-	stock[i] = NULL;
 	closedir(dir);
+	stock[i] = NULL;
 }
 
-static char		*ft_init_stat_path(char *str, char *stock, int mod)
+static char		*ft_init_new_path(char *str, char *stock, int mod)
 {
 	char	*new;
 	char	*tmp;
@@ -81,14 +83,40 @@ static char		*ft_init_stat_path(char *str, char *stock, int mod)
 	return (new);
 }
 
-void			ft_recursive_flag(char *str, t_flags *flag, t_var *v)
+static void		ft_recursive_p2(char *str, char **stock, t_flags *f, t_var *v)
 {
-	char			**stock;
-	int				name_count;
-	int				i;
-	char			*recursive_path;
+	int		i;
+	char	*recursive_path;
 
 	i = 0;
+	while (stock[i])
+	{
+		v->path = ft_init_new_path(str, stock[i], 1);
+		if (stat(v->path, &st) < 0)
+		{
+			free(v->path);
+			while (stock[i])
+				free(stock[i++]);
+			free(stock);
+			return ;
+		}
+		free(v->path);
+		if (S_ISDIR(st.st_mode))
+		{
+			recursive_path = ft_init_new_path(str, stock[i], 2);
+			ft_recursive_flag(recursive_path, f, v);
+			free(recursive_path);
+		}
+		free(stock[i++]);
+	}
+	free(stock);
+}
+
+void			ft_recursive_flag(char *str, t_flags *flag, t_var *v)
+{
+	char	**stock;
+	int		name_count;
+
 	v->path = str;
 	name_count = ft_count_names(v->path, flag);
 	if (name_count == -1)
@@ -96,41 +124,10 @@ void			ft_recursive_flag(char *str, t_flags *flag, t_var *v)
 	if (!(stock = (char**)malloc(sizeof(char*) * name_count + 1)))
 		return ;
 	ft_stock_names(v->path, stock, flag);
-	flag->R = 2;
-	ft_putstr("\n\n");
-	ft_putstr(v->path);
-	ft_putstr(":\n");
-	v->dir = opendir(v->path);
-	while ((diread = readdir(v->dir)) != NULL)
-	{
-		if (flag->a != 1 && diread->d_name[0] == '.')
-			continue ;
-		ft_printf("  %s  ", diread->d_name);
-	}
-	closedir(v->dir);
-	while (stock[i])
-	{
-		v->path = ft_init_stat_path(str, stock[i], 1);
-		if (stat(v->path, &st) < 0)
-			return ;
-		free(v->path);
-		if (S_ISDIR(st.st_mode))
-		{
-			recursive_path = ft_init_stat_path(str, stock[i], 2);
-			ft_recursive_flag(recursive_path, flag, v);
-			free(recursive_path);
-		}
-		free(stock[i]);
-		i++;
-	}
-	free(stock);
-}
-
-int				main(void)
-{
-	t_flags		flag;
-	t_var		v;
-
-	ft_recursive_flag("./", &flag, &v);
-	return (0);
+	ft_printf("%s:\n", v->path);
+	print_ls(v, flag);
+	ft_putchar('\n');
+	if (flag->l == 0)
+		ft_putchar('\n');
+	ft_recursive_p2(str, stock, flag, v);
 }
