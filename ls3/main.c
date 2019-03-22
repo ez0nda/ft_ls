@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 16:15:36 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/03/22 17:20:38 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/03/22 17:26:35 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ int				main(int ac, char **av)
 		ft_recursive_flag(v.path, &f, &v);
 		free(v.last);
 		free(v.first);
-		while (1);
 		return (0);
 	}
 	return (print_ls(&v, &f));

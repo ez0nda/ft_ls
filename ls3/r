@@ -1,0 +1,15 @@
+parser.c:	if (str[i] == '-' && flag->opt_end != 1)
+parser.c:			flag->opt_end = 1;
+parser.c:				|| str[i] == 't') && flag->opt_end != 1)
+parser.c:		flag->mod = 1;
+parser.c:		flag->opt_end = 1;
+parser.c:	while (str[i] != '\0' && flag->mod == 1)
+parser.c:			flag->l = 1;
+parser.c:			flag->R = 1;
+parser.c:			flag->a = 1;
+parser.c:			flag->r = 1;
+parser.c:			flag->t = 1;
+recursive.c:		if (flag->a == 0 && diread->d_name[0] == '.')
+recursive.c:		if (flag->a == 0 && diread->d_name[0] == '.')
+recursive.c:		else if (flag->a == 1)
+recursive.c:	if (flag->l == 0)
