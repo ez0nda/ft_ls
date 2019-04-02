@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:52:59 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/01 17:23:55 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/02 13:29:59 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,10 @@ void	init_print(t_var *v, t_flags *f)
 int		print_ls(t_var *v, t_flags *f)
 {
 	init_print(v, f);
-	if (f->l == 1 && v->len > 0)
+	if (f->l == 1 && v->len > 0 && v->is_dev == 0)
 		ft_printf("total %d\n", ft_count_blocks(v));
+	else if (f->l == 1 && v->len > 0 && v->is_dev == 1)
+		ft_printf("total %d\n", 0);
 	while (v->len > 0)
 	{
 		if (f->l == 1)

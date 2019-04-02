@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 10:28:46 by ezonda            #+#    #+#             */
-/*   Updated: 2019/04/01 14:18:26 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/02 12:18:45 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,13 @@ static int		ft_check_path(char *str, t_var *v)
 		return (0);
 	if ((v->dir = opendir(str)) == NULL || S_ISLNK(st.st_mode))
 	{
-		if (ft_strchr(str, '/') != NULL)
+		if (S_ISDIR(st.st_mode))
+		{
+			v->directory[v->index_d] = ft_strdup(str);
+			v->index_d++;
+			return (ft_strlen(str));
+		}
+		else if (ft_strchr(str, '/') != NULL)
 			return (ft_get_path(str, v));
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 16:15:36 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/01 18:10:14 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/02 13:49:15 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void		initialize_path(t_var *v, char **av)
 		if (av[i][0] == '-' && v->index_d == 0
 				&& v->index_f == 0 && v->index_n == 0 && tmp == 0)
 			continue ;
-		if (is_directory(av[i], v) == 1)
+		if (is_directory(av[i]) == 1)
 			v->index_d++;
 		else if (is_file(av[i], v) == 1)
 			v->index_f++;
@@ -60,7 +60,7 @@ static void		initialize_path(t_var *v, char **av)
 
 static void		initialize(t_var *v, t_flags *f, char **av, int ac)
 {
-	v->path = ft_strdup("./");
+	v->path = "./";
 	v->first = NULL;
 	v->mid = NULL;
 	v->last = NULL;
@@ -119,7 +119,6 @@ int				main(int ac, char **av)
 	if (f.rec == 1)
 	{
 		str_rec = ft_strdup(v.path);
-		free(v.path);
 		ft_recursive_flag(str_rec, &f, &v);
 		free(v.mid);
 		free(str_rec);

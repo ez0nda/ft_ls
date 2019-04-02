@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 09:59:40 by ezonda            #+#    #+#             */
-/*   Updated: 2019/01/31 20:10:52 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/02 15:01:01 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	ft_check_flags(const char *format, t_struct *stru, t_stock *stock)
 			format[i] != 'c' && format[i] != 's' && format[i] != 'p' &&
 			format[i] != 'f' && format[i] != '%')
 	{
-		if (format[i] == '0' && (format[i - 1] < '0'
-					|| format[i - 1] > '9') && format[i - 1] != '.')
+		if (format[i] == '0' && (format[i - 1] < '0' || format[i - 1] > '9')
+				&& format[i - 1] != '.')
 			stru->flag[0] = 1;
 		if (format[i] == '#')
 			stru->flag[1] = 1;
@@ -52,14 +52,13 @@ void	ft_check_flags(const char *format, t_struct *stru, t_stock *stock)
 			stru->flag[4] = 1;
 		if (format[i] == '*')
 			stru->min_field = va_arg(stru->ap, int);
-		ft_check_flags_p2(format, stru, i);
-		i++;
+		i = ft_check_flags_p2(format, stru, i);
 	}
 	ft_stock(stock, stru);
 	ft_dispatch(stru, stock);
 }
 
-void	ft_check_flags_p2(const char *format, t_struct *stru, int i)
+int		ft_check_flags_p2(const char *format, t_struct *stru, int i)
 {
 	if (format[i] == 'h' && format[i + 1] == 'h')
 		stru->flag[5] = 1;
@@ -71,6 +70,8 @@ void	ft_check_flags_p2(const char *format, t_struct *stru, int i)
 		stru->flag[8] = 1;
 	if (format[i] == 'L')
 		stru->flag[9] = 1;
+	i++;
+	return (i);
 }
 
 void	ft_check_width(const char *format, t_struct *stru)

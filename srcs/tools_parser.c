@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 11:57:06 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/01 14:20:18 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/02 12:17:43 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,24 +87,11 @@ int		is_file_n(char *s, t_var *v)
 	return (0);
 }
 
-int		is_directory(char *s, t_var *v)
+int		is_directory(char *s)
 {
-/*	v->len = 0;
-	if (stat(s, &st) < 0)
-		return (0);
-	if (S_ISDIR(st.st_mode))
-		return (1);
-	return (0);*/
 	if (lstat(s, &st) < 0)
 		return (0);
 	if (S_ISDIR(st.st_mode))
 		return (1);
-	return (0);
-	v->dir = opendir(s);
-	if (v->dir != NULL)
-	{
-		closedir(v->dir);
-		return (1);
-	}
 	return (0);
 }

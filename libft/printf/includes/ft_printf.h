@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 10:57:48 by ezonda            #+#    #+#             */
-/*   Updated: 2019/01/29 16:37:52 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/02 14:59:33 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int				ft_printf(const char *format, ...);
 int				ft_find_indicator(const char *format, t_struct *stru);
 void			ft_check_flags(const char *format, t_struct *stru,
 				t_stock *stock);
-void			ft_check_flags_p2(const char *format, t_struct *stru, int i);
+int				ft_check_flags_p2(const char *format, t_struct *stru, int i);
 void			ft_check_width(const char *format, t_struct *stru);
 void			ft_check_precision(const char *format, t_struct *stru);
 int				ft_check_format(const char *format, t_struct *stru);

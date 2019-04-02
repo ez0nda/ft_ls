@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:45:10 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/01 18:13:47 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/02 14:42:21 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,9 @@ char	**rev_order(char **tab)
 		j--;
 		while (i < j)
 		{
-			tab_save = ft_strdup(tab[i]);
-			free(tab[i]);
-			tab[i] = ft_strdup(tab[j]);
-			free(tab[j]);
-			tab[j] = ft_strdup(tab_save);
-			free(tab_save);
+			tab_save = tab[i];
+			tab[i] = tab[j];
+			tab[j] = tab_save;
 			i++;
 			j--;
 		}
@@ -68,12 +65,9 @@ char	**ascii_time_path(char **tab, t_var *v)
 			if ((v->ftime - st.st_mtime) == 0
 					&& ft_strcmp(tab[j], tab[i]) < 0)
 			{
-				tmp = ft_strdup(tab[i]);
-				free(tab[i]);
-				tab[i] = ft_strdup(tab[j]);
-				free(tab[j]);
-				tab[j] = ft_strdup(tmp);
-				free(tmp);
+				tmp = tab[i];
+				tab[i] = tab[j];
+				tab[j] = tmp;
 				v->ftime = st.st_mtime;
 			}
 			i++;
@@ -108,12 +102,9 @@ char	**time_multi_path(char **tab, t_var *v)
 			free(pathname);
 			if ((v->ftime - st.st_mtime) > 0)
 			{
-				tmp = ft_strdup(tab[j]);
-				free(tab[j]);
-				tab[j] = ft_strdup(tab[i]);
-				free(tab[i]);
-				tab[i] = ft_strdup(tmp);
-				free(tmp);
+				tmp = tab[j];
+				tab[j] = tab[i];
+				tab[i] = tmp;
 				v->ftime = st.st_mtime;
 			}
 			i++;
@@ -139,12 +130,9 @@ char	**ascii_multi_path(char **files, t_var *v)
 		{
 			if (ft_strcmp(files[i], files[j]) < 0)
 			{
-				tmp = ft_strdup(files[i]);
-				free(files[i]);
-				files[i] = ft_strdup(files[j]);
-				free(files[j]);
-				files[j] = ft_strdup(tmp);
-				free(tmp);
+				tmp = files[i];
+				files[i] = files[j];
+				files[j] = tmp;
 			}
 			j++;
 		}
@@ -163,14 +151,16 @@ void	multi_file(t_var *v, t_flags *f)
 	i = 0;
 	if (v->index_f != 0)
 	{
+		padding_file(v->files, v);
 		if (f->t == 1)
-			v->files = time_multi_path(v->files, v);
+			time_multi_path(v->files, v);
 		else
-			v->files = ascii_multi_path(v->files, v);
+			ascii_multi_path(v->files, v);
 		if (f->r == 1)
-			v->files = rev_order(v->files);
+			rev_order(v->files);
 		while (v->files[i])
 		{
+			free(v->first);
 			v->first = ft_strdupt(v->files[i], v);
 			if (f->l == 1)
 				print_long(v);
@@ -178,6 +168,7 @@ void	multi_file(t_var *v, t_flags *f)
 				print(v);
 			i++;
 		}
+		free(v->first);
 	}
 }
 
@@ -197,7 +188,7 @@ int		multi_path(t_var *v, t_flags *f)
 			rev_order(v->directory);
 		while (v->directory[i])
 		{
-			v->path = ft_strdup(v->directory[i]);
+			v->path = v->directory[i];
 			if (f->rec == 1)
 				ft_recursive_flag(v->path, f, v);
 			else
@@ -213,6 +204,8 @@ int		multi_path(t_var *v, t_flags *f)
 			i++;
 		}
 	}
+	if (f->t == 1)
+		free(v->mid);
 	free_multi_path(v);
 	return (0);
 }

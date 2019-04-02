@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 13:43:07 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/01 18:15:06 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/02 14:03:08 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		invalid_case(char *str, size_t i, t_var *v);
 void	rm_av_t(char **av, int index);
 int		is_file(char *s, t_var *v);
 int		is_file_n(char *s, t_var *v);
-int		is_directory(char *s, t_var *v);
+int		is_directory(char *s);
 char	*ft_dirchr(char *str, int c);
 
 int		print_ls(t_var *v, t_flags *f);
@@ -59,5 +59,6 @@ char	*ft_strdupt(char *s, t_var *v);
 int		countlen(char *s);
 void	padding_all(t_var *v);
 void	padding_dev(t_var *v);
+void	padding_file(char **s, t_var *v);
 
 #endif
