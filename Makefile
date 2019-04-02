@@ -6,7 +6,7 @@
 #    By: ezonda <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/21 11:32:21 by ezonda            #+#    #+#              #
-#    Updated: 2019/04/01 14:17:24 by ezonda           ###   ########.fr        #
+#    Updated: 2019/04/02 15:26:49 by ezonda           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ LIB = libft/libft.a
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror # -g -fsanitize=address
 
 all: $(NAME)
 
