@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 11:57:06 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 15:36:26 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/02 15:56:59 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int		close_dir(t_var *v, int i, char *s1, char *s2)
 	return (1);
 }
 
-char	*ft_dirchr(char *str, int c)
+char			*ft_dirchr(char *str, int c)
 {
 	int i;
 
@@ -41,7 +41,7 @@ char	*ft_dirchr(char *str, int c)
 	return (NULL);
 }
 
-int		is_file(char *s, t_var *v)
+int				is_file(char *s, t_var *v)
 {
 	v->dir = opendir("./");
 	while ((diread = readdir(v->dir)) != NULL)
@@ -55,7 +55,7 @@ int		is_file(char *s, t_var *v)
 	return (0);
 }
 
-int		is_file_n(char *s, t_var *v)
+int				is_file_n(char *s, t_var *v)
 {
 	int		start;
 	int		end;
@@ -87,7 +87,7 @@ int		is_file_n(char *s, t_var *v)
 	return (0);
 }
 
-int		is_directory(char *s)
+int				is_directory(char *s)
 {
 	if (lstat(s, &st) < 0)
 		return (0);

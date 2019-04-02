@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 15:00:20 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 15:35:52 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/02 16:20:55 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ void	ft_usage(t_var *v, char *str, int mod)
 		ft_putchar_fd(v->invalid, 2);
 		ft_putchar_fd('\n', 2);
 		ft_putendl_fd("usage: ./ft_ls [-lRart] [file ...]", 2);
+	}
+	else if (mod == 2)
+	{
+		ft_putstr_fd(str, 2);
+		ft_putchar_fd('\n', 2);
+		ft_putstr_fd("ft_ls: ", 2);
+		ft_putstr_fd(ft_dirchr(str, '/'), 2);
+		perror(" ");
+		ft_putchar_fd('\n', 2);
 	}
 	else
 	{

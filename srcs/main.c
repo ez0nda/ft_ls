@@ -6,13 +6,13 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 16:15:36 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 15:23:32 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/02 16:04:43 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-void	malloc_path(t_var *v)
+void			malloc_path(t_var *v)
 {
 	if (!(v->files = (char**)malloc(sizeof(char*) * (v->index_f + 1))))
 		exit(EXIT_FAILURE);
@@ -87,7 +87,7 @@ static void		initialize(t_var *v, t_flags *f, char **av, int ac)
 	f->rec = 0;
 }
 
-void		free_multi_path(t_var *v)
+void			free_multi_path(t_var *v)
 {
 	int i;
 

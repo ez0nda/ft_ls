@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 13:38:57 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/03/29 18:09:26 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/02 15:47:45 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ struct dirent	*diread;
 struct stat		st;
 struct tm		*date;
 
-typedef struct s_var
+typedef struct	s_var
 {
 	DIR		*dir;
 	char	*path;
@@ -49,10 +49,9 @@ typedef struct s_var
 	int		len_dmaj;
 	int		len_dmin;
 	int		l_multi;
-//	char	**stock_time;
 }				t_var;
 
-typedef struct s_flags
+typedef struct	s_flags
 {
 	int opt_end;
 	int mod;

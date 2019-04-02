@@ -6,13 +6,13 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 11:25:55 by ezonda            #+#    #+#             */
-/*   Updated: 2019/04/02 13:45:57 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/02 16:22:30 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-static int		ft_count_names(char *strpath, t_flags *flag)
+static int		ft_count_names(char *strpath, t_flags *flag, t_var *v)
 {
 	DIR				*dir;
 	int				count;
@@ -23,12 +23,7 @@ static int		ft_count_names(char *strpath, t_flags *flag)
 	dir = opendir(strpath);
 	if (dir == NULL)
 	{
-		ft_putstr_fd(strpath, 2);
-		ft_putchar_fd('\n', 2);
-		ft_putstr_fd("ft_ls: ", 2);
-		ft_putstr_fd(ft_dirchr(strpath, '/'), 2);
-		perror(" ");
-		ft_putchar_fd('\n', 2);
+		ft_usage(v, strpath, 2);
 		return (-1);
 	}
 	while ((diread = readdir(dir)) != NULL)
@@ -136,7 +131,7 @@ void			ft_recursive_flag(char *str, t_flags *flag, t_var *v)
 
 	i = 0;
 	v->path = str;
-	name_count = ft_count_names(v->path, flag);
+	name_count = ft_count_names(v->path, flag, v);
 	if (name_count == -1)
 		return ;
 	if (!(stock = (char**)malloc(sizeof(char*) * (name_count + 1))))

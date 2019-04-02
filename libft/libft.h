@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 14:35:59 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/03/21 14:56:30 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/02 15:52:26 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ int					ft_sqrt(int n);
 int					ft_power(int n, int power);
 int					ft_is_prime(int nb);
 
-int		get_next_line(const int fd, char **line);
+int					get_next_line(const int fd, char **line);
 
 #endif

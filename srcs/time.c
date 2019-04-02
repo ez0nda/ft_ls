@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:24:42 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 14:12:04 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/02 16:07:27 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,20 @@ void	padding_all(t_var *v)
 			v->len_u = countlen(usr->pw_name);
 	}
 	else
+	{
 		if (v->len_u < nbrsize((long)st.st_uid))
 			v->len_u = nbrsize((long)st.st_uid);
+	}
 	if ((grp = getgrgid(st.st_gid)) != NULL)
 	{
 		if (v->len_g < countlen(grp->gr_name))
 			v->len_g = countlen(grp->gr_name);
 	}
 	else
+	{
 		if (v->len_g < nbrsize((long)st.st_gid))
 			v->len_g = nbrsize((long)st.st_gid);
+	}
 	padding_dev(v);
 }
 

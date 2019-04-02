@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 13:43:07 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 14:03:08 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/02 16:14:16 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	**rev_order(char **tab);
 char	**ascii_multi_path(char **files, t_var *v);
 char	**time_multi_path(char **tab, t_var *v);
 
+void	ft_get_link(t_var *v, char *pathname);
 char	**free_path_stat(char *s);
 void	free_pathname(char *s1, char *s2);
 int		free_pathname_int(char *s1, char *s2);

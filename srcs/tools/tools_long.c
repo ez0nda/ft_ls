@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 15:24:45 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 15:36:02 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/02 16:12:34 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,17 @@ void	padding_dev(t_var *v)
 		v->is_dev = 1;
 }
 
+void	ft_get_link(t_var *v, char *pathname)
+{
+	int			nbytes;
+	char		buff[255];
+
+	nbytes = readlink(pathname, buff, sizeof(buff));
+	buff[nbytes] = '\0';
+	ft_printf(" -> %s", buff);
+	v->is_link = 0;
+}
+
 void	ft_display_dev(t_var *v)
 {
 	int nb_min;
@@ -41,8 +52,8 @@ void	ft_display_dev(t_var *v)
 
 void	padding_file(char **s, t_var *v)
 {
-	char *path;
-	int i;
+	char	*path;
+	int		i;
 
 	i = 0;
 	while (s[i])

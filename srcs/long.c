@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:03:52 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/01 14:18:03 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/02 16:12:12 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,6 @@ static void		ft_display_usr_grp(t_var *v)
 		ft_printf("  %*s", v->len_g, grp->gr_name);
 	else
 		ft_printf("  %*ld", v->len_g, (long)st.st_gid);
-}
-
-static void		ft_get_link(t_var *v, char *pathname)
-{
-	int			nbytes;
-	char		buff[1024];
-
-	nbytes = readlink(pathname, buff, sizeof(buff));
-	buff[nbytes] = '\0';
-	ft_printf(" -> %s", buff);
-	v->is_link = 0;
 }
 
 static void		ft_display_attr(t_var *v)
