@@ -124,9 +124,7 @@ void			ft_recursive_flag(char *str, t_flags *flag, t_var *v)
 {
 	char	**stock;
 	int		name_count;
-	int		i;
 
-	i = 0;
 	v->path = str;
 	name_count = ft_count_names(v->path, flag, v);
 	if (name_count == -1)
