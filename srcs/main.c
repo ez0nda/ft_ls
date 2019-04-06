@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 16:15:36 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/03 16:29:00 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/06 11:14:05 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void		initialize_path(t_var *v, char **av)
 		if (av[i][0] == '-' && v->index_d == 0
 				&& v->index_f == 0 && v->index_n == 0 && tmp == 0)
 			continue ;
-		initialize_path_p2(v, av, i);
+		i = initialize_path_p2(v, av, i);
 		count++;
 	}
 	if (count >= 1 && v->index_f == 0 && v->index_d == 0)

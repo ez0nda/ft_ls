@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 13:43:07 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/03 16:18:39 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/06 11:13:15 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**free_path_stat(char *s);
 void	free_pathname(char *s1, char *s2);
 int		free_pathname_int(char *s1, char *s2);
 void	free_multi_path(t_var *v);
-void	initialize_path_p2(t_var *v, char **av, int i);
+int		initialize_path_p2(t_var *v, char **av, int i);
 int		free_long(char *name, char *pathname, int mod);
 int		nbrsize(int nb);
 int		countlen(char *s);

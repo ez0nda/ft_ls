@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 11:32:01 by ezonda            #+#    #+#             */
-/*   Updated: 2019/04/03 15:46:28 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/06 11:08:19 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	multi_display(t_var *v, t_flags *f, int i)
 	print_ls(v, f);
 }
 
-void	initialize_path_p2(t_var *v, char **av, int i)
+int		initialize_path_p2(t_var *v, char **av, int i)
 {
 	if (is_directory(av[i]) == 1)
 		v->index_d++;
@@ -60,6 +60,7 @@ void	initialize_path_p2(t_var *v, char **av, int i)
 		v->index_f++;
 	else
 		rm_av_t(av, i--);
+	return (i);
 }
 
 void	algo_multi_time(char **tab, t_var *v, int i, int j)
