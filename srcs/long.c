@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 15:03:52 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 16:12:12 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/03 16:39:24 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,14 @@ static void		ft_display_usr_grp(t_var *v)
 
 	usr = getpwuid(st.st_uid);
 	if (usr != NULL)
-		ft_printf(" %*s", v->len_u, usr->pw_name);
+		ft_printf(" %-*s", v->len_u, usr->pw_name);
 	else
-		ft_printf(" %*ld", v->len_u, (long)st.st_uid);
+		ft_printf(" %-*ld", v->len_u, (long)st.st_uid);
 	grp = getgrgid(st.st_gid);
 	if (grp != NULL)
-		ft_printf("  %*s", v->len_g, grp->gr_name);
+		ft_printf("  %-*s", v->len_g, grp->gr_name);
 	else
-		ft_printf("  %*ld", v->len_g, (long)st.st_gid);
+		ft_printf("  %-*ld", v->len_g, (long)st.st_gid);
 }
 
 static void		ft_display_attr(t_var *v)
@@ -100,10 +100,7 @@ int				print_long(t_var *v)
 	char	*time;
 
 	name = ft_strdup(v->first);
-	if (v->l_multi != 1)
-		pathname = ft_strjoin(v->path, name);
-	else
-		pathname = ft_strdup(name);
+	pathname = v->l_multi != 1 ? ft_strjoin(v->path, name) : ft_strdup(name);
 	if (lstat(pathname, &st) < 0)
 		return (free_long(name, pathname, 0));
 	ft_display_type(v);

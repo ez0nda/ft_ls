@@ -6,13 +6,28 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:26:13 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/01 14:17:53 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/03 12:34:40 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-void	print_ls_ascii(t_var *v, t_flags *f)
+static void		print_ls_ascii_p2(t_var *v, t_flags *f, char *name)
+{
+	if (ft_strcmp(v->first, name) < 0
+		&& ft_strcmp(v->mid, name) > 0 && f->r == 0)
+	{
+		new_alloc(v, name, 2);
+	}
+	else if (ft_strcmp(v->first, name) > 0
+			&& ft_strcmp(v->mid, name) < 0 && f->r == 1)
+	{
+		new_alloc(v, name, 2);
+	}
+	free(name);
+}
+
+void			print_ls_ascii(t_var *v, t_flags *f)
 {
 	char	*name;
 
@@ -33,21 +48,10 @@ void	print_ls_ascii(t_var *v, t_flags *f)
 			free(name);
 			continue ;
 		}
-		if (ft_strcmp(v->first, name) < 0
-				&& ft_strcmp(v->mid, name) > 0 && f->r == 0)
-		{
-			new_alloc(v, name, 2);
-		}
-		else if (ft_strcmp(v->first, name) > 0
-				&& ft_strcmp(v->mid, name) < 0 && f->r == 1)
-		{
-			new_alloc(v, name, 2);
-		}
-		free(name);
+		print_ls_ascii_p2(v, f, name);
 	}
 	closedir(v->dir);
 	free(v->first);
 	v->first = ft_strdup(v->mid);
-	free(v->mid);
-	v->mid = NULL;
+	ft_strdel(&v->mid);
 }

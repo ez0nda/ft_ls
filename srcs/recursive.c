@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 11:25:55 by ezonda            #+#    #+#             */
-/*   Updated: 2019/04/02 16:22:30 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/03 10:35:00 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 static int		ft_count_names(char *strpath, t_flags *flag, t_var *v)
 {
 	DIR				*dir;
-	int				count;
 	char			*name;
 	char			*pathname;
 
-	count = 0;
+	v->counter = 0;
 	dir = opendir(strpath);
 	if (dir == NULL)
 	{
@@ -36,20 +35,18 @@ static int		ft_count_names(char *strpath, t_flags *flag, t_var *v)
 			return (free_pathname_int(pathname, name));
 		free_pathname(pathname, name);
 		if (S_ISDIR(st.st_mode))
-			count++;
+			v->counter++;
 	}
 	closedir(dir);
-	return (count);
+	return (v->counter);
 }
 
 static void		ft_stock_names(char *strpath, char **stock, t_flags *flag)
 {
-	int		i;
 	DIR		*dir;
 	char	*pathname;
 	char	*name;
 
-	i = 0;
 	dir = opendir(strpath);
 	while ((diread = readdir(dir)) != NULL)
 	{
@@ -67,10 +64,10 @@ static void		ft_stock_names(char *strpath, char **stock, t_flags *flag)
 			return (free_pathname(pathname, name));
 		free_pathname(pathname, name);
 		if (S_ISDIR(st.st_mode))
-			stock[i++] = ft_strdup(diread->d_name);
+			*stock++ = ft_strdup(diread->d_name);
 	}
 	closedir(dir);
-	stock[i] = NULL;
+	*stock = NULL;
 }
 
 static char		*ft_init_new_path(char *str, char *stock, int mod)

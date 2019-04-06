@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 15:00:20 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 16:20:55 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/03 16:15:36 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		free_long(char *name, char *pathname, int mod)
 		return (0);
 }
 
-int		ft_count_blocks(t_var *v)
+int		ft_count_blocks(t_var *v, t_flags *flag)
 {
 	char	*name;
 	int		count;
@@ -80,6 +80,8 @@ int		ft_count_blocks(t_var *v)
 	v->dir = opendir(v->path);
 	while ((diread = readdir(v->dir)) != NULL)
 	{
+		if (flag->a == 0 && diread->d_name[0] == '.')
+			continue ;
 		name = ft_strdup(diread->d_name);
 		pathname = ft_strjoin(v->path, name);
 		free(name);

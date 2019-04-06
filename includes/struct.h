@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 13:38:57 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 15:47:45 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/03 15:13:33 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct	s_var
 	int		len_dmaj;
 	int		len_dmin;
 	int		l_multi;
+	int		counter;
+	int		index_path;
 }				t_var;
 
 typedef struct	s_flags

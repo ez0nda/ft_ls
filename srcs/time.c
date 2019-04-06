@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:24:42 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 16:07:27 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/03 16:05:24 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ void	padding_all(t_var *v)
 	struct passwd	*usr;
 	struct group	*grp;
 
-	if (v->len_l < nbrsize(st.st_nlink))
-		v->len_l = nbrsize(st.st_nlink);
-	if (v->len_s < nbrsize(st.st_size))
-		v->len_s = nbrsize(st.st_size);
+	padding_len(v);
 	if ((usr = getpwuid(st.st_uid)) != NULL)
 	{
 		if (v->len_u < countlen(usr->pw_name))
@@ -44,6 +41,30 @@ void	padding_all(t_var *v)
 	padding_dev(v);
 }
 
+void	algo_init_t(t_var *v)
+{
+	if ((st.st_mtime - v->ftime) >= 0)
+	{
+		if (ft_strcmp(v->first, diread->d_name) > 0
+				|| (st.st_mtime - v->ftime) > 0)
+		{
+			free(v->first);
+			v->first = ft_strdup(diread->d_name);
+			v->ftime = st.st_mtime;
+		}
+	}
+	if ((st.st_mtime - v->ltime) <= 0)
+	{
+		if (ft_strcmp(v->last, diread->d_name) < 0
+				|| (st.st_mtime - v->ltime) < 0)
+		{
+			free(v->last);
+			v->last = ft_strdup(diread->d_name);
+			v->ltime = st.st_mtime;
+		}
+	}
+}
+
 void	init_print_t(t_var *v, t_flags *f)
 {
 	char	*name;
@@ -53,6 +74,7 @@ void	init_print_t(t_var *v, t_flags *f)
 	{
 		if (f->a == 0 && diread->d_name[0] == '.')
 			continue ;
+		v->len++;
 		name = ft_strdup(diread->d_name);
 		pathname = ft_strjoin(v->path, name);
 		if (lstat(pathname, &st) < 0)
@@ -66,27 +88,7 @@ void	init_print_t(t_var *v, t_flags *f)
 			v->last = ft_strdup(diread->d_name);
 			v->ltime = st.st_mtime;
 		}
-		if ((st.st_mtime - v->ftime) >= 0)
-		{
-			if (ft_strcmp(v->first, diread->d_name) > 0
-					|| (st.st_mtime - v->ftime) > 0)
-			{
-				free(v->first);
-				v->first = ft_strdup(diread->d_name);
-				v->ftime = st.st_mtime;
-			}
-		}
-		if ((st.st_mtime - v->ltime) <= 0)
-		{
-			if (ft_strcmp(v->last, diread->d_name) < 0
-					|| (st.st_mtime - v->ltime) < 0)
-			{
-				free(v->last);
-				v->last = ft_strdup(diread->d_name);
-				v->ltime = st.st_mtime;
-			}
-		}
-		v->len++;
+		algo_init_t(v);
 	}
 	closedir(v->dir);
 }
@@ -117,10 +119,5 @@ void	print_ls_time(t_var *v, t_flags *f)
 		time_algo(v, i, name);
 		free_pathname(pathname, name);
 	}
-	closedir(v->dir);
-	if ((v->ftime - v->mtime) == 0)
-		ascii_time(v, f);
-	free(v->first);
-	v->first = ft_strdup(v->mid);
-	v->ftime = v->mtime;
+	print_ls_time_p2(v, f);
 }

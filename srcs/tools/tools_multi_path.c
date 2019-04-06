@@ -6,34 +6,11 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 16:17:06 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 15:36:10 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/03 11:32:50 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/ft_ls.h"
-
-char	*ft_strdupt(char *s, t_var *v)
-{
-	char	*ret;
-	int		i;
-	int		j;
-
-	if (s[0] == '/')
-		v->l_multi = 1;
-	i = ft_strlen(s);
-	if (!(ret = (char*)malloc(sizeof(char) * i)))
-		return (NULL);
-	j = 0;
-	i = 0;
-	while (s[j])
-	{
-		ret[i] = s[j];
-		i++;
-		j++;
-	}
-	ret[i] = '\0';
-	return (ret);
-}
 
 int		countlen(char *s)
 {

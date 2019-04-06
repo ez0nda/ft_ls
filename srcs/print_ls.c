@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 12:52:59 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 13:29:59 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/03 16:14:50 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,8 @@ void	new_alloc(t_var *v, char *name, int mod)
 
 void	init_print(t_var *v, t_flags *f)
 {
-	char	*pathname;
-	char	*name;
-
 	v->len = 0;
+	v->len_n = 0;
 	v->dir = opendir(v->path);
 	if (v->dir == NULL)
 	{
@@ -73,28 +71,7 @@ void	init_print(t_var *v, t_flags *f)
 	if (f->t == 0)
 	{
 		while ((diread = readdir(v->dir)) != NULL)
-		{
-			if (f->a == 0 && diread->d_name[0] == '.')
-				continue ;
-			name = ft_strdup(diread->d_name);
-			pathname = ft_strjoin(v->path, name);
-			if (lstat(pathname, &st) < 0)
-				return (free_pathname(pathname, name));
-			padding_all(v);
-			if (v->first == NULL)
-			{
-				v->first = ft_strdup(name);
-				v->last = ft_strdup(name);
-			}
-			if (ft_strcmp(v->first, name) > 0)
-				new_alloc(v, name, 0);
-			if (ft_strcmp(v->last, name) < 0)
-				new_alloc(v, name, 1);
-			if (v->len_n < ft_strlen(name))
-				v->len_n = ft_strlen(name);
-			free_pathname(pathname, name);
-			v->len++;
-		}
+			algo_init(v, f);
 		closedir(v->dir);
 	}
 	else
@@ -107,7 +84,7 @@ int		print_ls(t_var *v, t_flags *f)
 {
 	init_print(v, f);
 	if (f->l == 1 && v->len > 0 && v->is_dev == 0)
-		ft_printf("total %d\n", ft_count_blocks(v));
+		ft_printf("total %d\n", ft_count_blocks(v, f));
 	else if (f->l == 1 && v->len > 0 && v->is_dev == 1)
 		ft_printf("total %d\n", 0);
 	while (v->len > 0)
@@ -122,24 +99,6 @@ int		print_ls(t_var *v, t_flags *f)
 			print_ls_ascii(v, f);
 		v->len--;
 	}
-	if (f->t == 0)
-	{
-		free(v->mid);
-		if (v->last != NULL)
-			free(v->last);
-		free(v->first);
-	}
-	else
-	{
-		free(v->first);
-		free(v->last);
-	}
-	v->first = NULL;
-	v->last = NULL;
-	v->len_u = 0;
-	v->len_g = 0;
-	v->len_n = 0;
-	v->len_l = 0;
-	v->len_s = 0;
+	free_n_reinitialize(v, f);
 	return (0);
 }

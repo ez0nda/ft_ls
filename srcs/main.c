@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 16:15:36 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 16:04:43 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/03 16:29:00 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,7 @@ static void		initialize_path(t_var *v, char **av)
 		if (av[i][0] == '-' && v->index_d == 0
 				&& v->index_f == 0 && v->index_n == 0 && tmp == 0)
 			continue ;
-		if (is_directory(av[i]) == 1)
-			v->index_d++;
-		else if (is_file(av[i], v) == 1)
-			v->index_f++;
-		else if (is_file_n(av[i], v) == 2)
-			v->index_f++;
-		else
-			rm_av_t(av, i--);
+		initialize_path_p2(v, av, i);
 		count++;
 	}
 	if (count >= 1 && v->index_f == 0 && v->index_d == 0)
@@ -115,7 +108,10 @@ int				main(int ac, char **av)
 	if (v.index_f == 0 && v.index_d == 0 && v.index_n == 0)
 		free_multi_path(&v);
 	else
-		return (multi_path(&v, &f));
+	{
+		multi_path(&v, &f);
+		return (0);
+	}
 	if (f.rec == 1)
 	{
 		str_rec = ft_strdup(v.path);

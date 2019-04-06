@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 10:28:46 by ezonda            #+#    #+#             */
-/*   Updated: 2019/04/02 12:18:45 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/03 11:04:39 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ static int		ft_get_path(char *str, t_var *v)
 
 static int		ft_check_path(char *str, t_var *v)
 {
-	int i;
-
-	i = 0;
+	v->index_path = 0;
 	if (lstat(str, &st) < 0)
 		return (0);
 	if ((v->dir = opendir(str)) == NULL || S_ISLNK(st.st_mode))
@@ -36,9 +34,9 @@ static int		ft_check_path(char *str, t_var *v)
 		}
 		else if (ft_strchr(str, '/') != NULL)
 			return (ft_get_path(str, v));
-		i++;
+		v->index_path++;
 	}
-	if (i == 0)
+	if (v->index_path == 0)
 		closedir(v->dir);
 	if ((v->dir = opendir(str)) == NULL && ft_strchr(str, '/') == NULL)
 	{
@@ -46,15 +44,7 @@ static int		ft_check_path(char *str, t_var *v)
 		v->index_f++;
 	}
 	else
-	{
-		closedir(v->dir);
-		if (str[ft_strlen(str) - 1] != '/')
-			v->directory[v->index_d] = ft_strjoin(str, "/");
-		else
-			v->directory[v->index_d] = ft_strdup(str);
-		v->index_d++;
-		return (ft_strlen(str));
-	}
+		return (ft_check_path_p2(str, v));
 	return (ft_strlen(str));
 }
 

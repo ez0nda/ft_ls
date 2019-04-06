@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 15:24:45 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 16:12:34 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/03 10:56:31 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,21 @@ void	padding_dev(t_var *v)
 		v->len_n = ft_strlen(diread->d_name);
 	if (S_ISCHR(st.st_mode))
 		v->is_dev = 1;
+}
+
+char	*ft_dirchr(char *str, int c)
+{
+	int i;
+
+	i = ft_strlen(str);
+	i -= 2;
+	while (i >= 0)
+	{
+		if (str[i] == c)
+			return ((char*)&str[i + 1]);
+		i--;
+	}
+	return (NULL);
 }
 
 void	ft_get_link(t_var *v, char *pathname)

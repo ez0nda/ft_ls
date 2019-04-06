@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 11:57:06 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/04/02 15:56:59 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/04/03 15:17:08 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,15 @@ static int		close_dir(t_var *v, int i, char *s1, char *s2)
 	return (1);
 }
 
-char			*ft_dirchr(char *str, int c)
+int				ft_check_path_p2(char *str, t_var *v)
 {
-	int i;
-
-	i = ft_strlen(str);
-	i -= 2;
-	while (i >= 0)
-	{
-		if (str[i] == c)
-			return ((char*)&str[i + 1]);
-		i--;
-	}
-	return (NULL);
+	closedir(v->dir);
+	if (str[ft_strlen(str) - 1] != '/')
+		v->directory[v->index_d] = ft_strjoin(str, "/");
+	else
+		v->directory[v->index_d] = ft_strdup(str);
+	v->index_d++;
+	return (ft_strlen(str));
 }
 
 int				is_file(char *s, t_var *v)
@@ -57,22 +53,17 @@ int				is_file(char *s, t_var *v)
 
 int				is_file_n(char *s, t_var *v)
 {
-	int		start;
-	int		end;
 	char	*path_d;
 	char	*path;
 
-	end = 0;
-	start = 0;
 	if (ft_strchr(s, '/') != NULL)
 	{
-		while (s[start])
-			start++;
-		end = start;
-		while (s[start] != '/')
-			start--;
-		path_d = ft_strsub(s, 0, start);
-		path = ft_strsub(s, start + 1, end - start);
+		v->len = ft_strlen(s);
+		v->len_n = v->len;
+		while (s[v->len] != '/')
+			v->len--;
+		path_d = ft_strsub(s, 0, v->len);
+		path = ft_strsub(s, v->len + 1, v->len_n - v->len);
 		if ((v->dir = opendir(path_d)) == NULL)
 		{
 			ft_usage(v, s, 0);

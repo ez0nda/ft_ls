@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 10:21:41 by ezonda            #+#    #+#             */
-/*   Updated: 2019/03/01 15:45:50 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/04/03 16:36:01 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <grp.h>
 # include <uuid/uuid.h>
 # include <time.h>
+# include <stdio.h>
 
 # include "../libft/libft.h"
 # include "struct.h"
